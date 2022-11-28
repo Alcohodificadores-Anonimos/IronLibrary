@@ -55,7 +55,7 @@ public class Library {
             }
             switch (menu) {
                 case 1:
-
+                    addBook();
                     break;
                 case 2:
                     searchBookByTitle();
@@ -85,21 +85,48 @@ public class Library {
         }
     }
 
-    public void addBook(){
-/*        String name;
-        String ibs;
-        int pages;
-        String authorString;
-        Author author = null;
-        //name = in
-        for(Author a : authorRepository.findAll()){
-            if(authorString.equals(a.getName())){
+    public void addBook() {
+        Scanner scanner = new Scanner(System.in);
+        Author author;
+        Book book;
+        String isbn;
+        String title;
+        String category;
+        int quantity;
+        String authorName;
+        String authorEmail;
+
+
+        System.out.println("Enter isbn");
+        isbn = scanner.nextLine();
+        System.out.println("Enter title");
+        title = scanner.nextLine();
+        System.out.println("Enter category");
+        category = scanner.nextLine();
+        System.out.println("Enter number of books");
+        quantity = scanner.nextInt();
+        System.out.println("Enter Author name");
+        authorName = scanner.nextLine();
+        authorName = scanner.nextLine();
+        System.out.println("Enter Author mail");
+        authorEmail = scanner.nextLine();
+
+        author = authorRepository.save(new Author(authorName,authorEmail));
+        book = bookRepository.save(new Book(isbn, title, category,quantity, author));
+        author.getAuthorBook().add(book);
+        authorRepository.save(author);
+
+    }
+
+
+    /*    for(Author a : authorRepository.findAll()){
+            if(authorName.equals(a.getName())){
                 author = a;
             }
         }
         new Book();
-        author.getAuthorBook(book);*/
-    }
+        author.getAuthorBook(book);
+    }*/
 
     public void searchBookByTitle() {
 
@@ -110,7 +137,10 @@ public class Library {
         bookName = scanner.nextLine();
 
         for(Book b : bookRepository.findAllByTitle(bookName)){
+
+            //if is present
             System.out.println(b);
+            //else no hay ningun libro con ese nombre
         }
     }
 
