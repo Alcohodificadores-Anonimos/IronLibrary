@@ -2,6 +2,8 @@ package com.example.IronLibrary.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.lang.NonNull;
 /*
 This class will have:
 
@@ -110,4 +112,5 @@ public class Book {
                 ", issueBookId=" + issueBookId +
                 '}';
     }
+
 }

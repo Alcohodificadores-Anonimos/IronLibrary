@@ -8,7 +8,9 @@ import com.example.IronLibrary.repositories.IssueRepository;
 import com.example.IronLibrary.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Library {
@@ -22,14 +24,29 @@ public class Library {
         this.issueRepository = issueRepository;
     }
 
+    @Autowired
     AuthorRepository authorRepository;
-
+    @Autowired
     BookRepository bookRepository;
-
+    @Autowired
     StudentRepository studentRepository;
-
+    @Autowired
     IssueRepository issueRepository;
 
+    public void temporaryTestMethod() {
+        Author a = new Author("a","email");
+        Author a1 = new Author("a1","mail1");
+        Author a2 = new Author("a2","mail2");
+
+        Book b = new Book("isbn","title","category",1,a);
+        Book b1 = new Book("isbn1","title1","category1",1,a1);
+        Book b2 = new Book("isbn2","title2","category2",1,a2);
+        Book b3 = new Book("isbn3","title3","category3",1,a2);
+        Book b4 = new Book("isbn4","title4","category4",1,a2);
+
+        authorRepository.saveAll(List.of(a,a1,a2));
+        bookRepository.saveAll(List.of(b,b1,b2,b3,b4));
+    }
 
     public void displayOptions() {
 
@@ -52,7 +69,7 @@ public class Library {
             displayOptions();
             while (true) {
                 if (!scanner.hasNextShort()) {
-                    System.err.println("Insert a number");
+                    System.err.println("Select an option (1 to 8): ");
                     scanner.next();
                 }else{
                     menu = scanner.nextShort();
@@ -73,7 +90,10 @@ public class Library {
 
                     break;
                 case 5:
-
+                    System.out.println("Type the author's Id: ");
+                    Integer id = scanner.nextInt();
+                    Author author = authorRepository.findById(id).get();
+                    System.out.println(listAllBooksOfAuthor(author));
                     break;
                 case 6:
 
@@ -138,6 +158,7 @@ public class Library {
 
         Scanner scanner = new Scanner(System.in);
         String bookName;
+        boolean bookFound = false;
 
         System.out.println("Enter a book name");
         bookName = scanner.nextLine();
@@ -146,30 +167,32 @@ public class Library {
 
         for(Book b : bookRepository.findAllByTitle(bookName)){
 
-            //if is present
-            System.out.println(b);
-            //else no hay ningun libro con ese nombre
+            if(b != null) {
+                System.out.println(b);
+                bookFound = true;
+            }
+
         }
+
+        if(!bookFound) System.out.println("No hay ningún libro con este nombre.");
     }
 
-    public void searchBookByCategory(){
+    public void searchBookByCategory(String category){
 
     }
 
-    public void searchBookByAuthor(){
+    public void searchBookByAuthor(Author author){
 
     }
-    public void listAllbookOfAuthor(){
-
+    public List<Book> listAllBooksOfAuthor (Author author){
+        return author.getAuthorBook();
     }
 
     public void issueBookToStudent(){
 
     }
-    public void listBooksByUsn(){
-
+    public List<Book> listBooksByUsn(String usn){
+        return null;
     }
-
-
 
 }
