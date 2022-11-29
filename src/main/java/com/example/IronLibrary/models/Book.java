@@ -1,5 +1,6 @@
 package com.example.IronLibrary.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 /*
 This class will have:
@@ -24,6 +25,7 @@ public class Book {
     private Integer quantity;
     @ManyToOne
     @JoinColumn(name="author_id")
+    @JsonIgnore
     private Author author;
     @OneToOne(mappedBy = "issueBook")
     private Issue issueBookId;

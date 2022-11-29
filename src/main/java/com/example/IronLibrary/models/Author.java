@@ -13,7 +13,7 @@ public class Author {
     private Integer authorId;
     private String name;
     private String email;
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author" , fetch = FetchType.EAGER)
     private List<Book> authorBook = new ArrayList<>();
 
     public Author() {

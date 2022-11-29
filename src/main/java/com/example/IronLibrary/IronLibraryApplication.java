@@ -29,7 +29,7 @@ public class IronLibraryApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Library library = new Library();
+		Library library = new Library(authorRepository, bookRepository,studentRepository, issueRepository);
 		library.menu();
 	}
 }

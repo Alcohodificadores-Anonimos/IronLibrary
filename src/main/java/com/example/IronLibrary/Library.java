@@ -15,13 +15,19 @@ public class Library {
 
     Scanner scanner = new Scanner(System.in);
 
-    @Autowired
+    public Library(AuthorRepository authorRepository, BookRepository bookRepository, StudentRepository studentRepository, IssueRepository issueRepository) {
+        this.authorRepository = authorRepository;
+        this.bookRepository = bookRepository;
+        this.studentRepository = studentRepository;
+        this.issueRepository = issueRepository;
+    }
+
     AuthorRepository authorRepository;
-    @Autowired
+
     BookRepository bookRepository;
-    @Autowired
+
     StudentRepository studentRepository;
-    @Autowired
+
     IssueRepository issueRepository;
 
 
@@ -106,6 +112,7 @@ public class Library {
         System.out.println("Enter number of books");
         quantity = scanner.nextInt();
         System.out.println("Enter Author name");
+        //pongo 2 sino el scanner hace cosas raras
         authorName = scanner.nextLine();
         authorName = scanner.nextLine();
         System.out.println("Enter Author mail");
@@ -113,8 +120,7 @@ public class Library {
 
         author = authorRepository.save(new Author(authorName,authorEmail));
         book = bookRepository.save(new Book(isbn, title, category,quantity, author));
-        author.getAuthorBook().add(book);
-        authorRepository.save(author);
+
 
     }
 
@@ -135,6 +141,8 @@ public class Library {
 
         System.out.println("Enter a book name");
         bookName = scanner.nextLine();
+
+       // System.out.println(bookRepository.findAll());
 
         for(Book b : bookRepository.findAllByTitle(bookName)){
 
