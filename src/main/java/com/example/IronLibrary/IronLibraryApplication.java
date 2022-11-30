@@ -27,7 +27,7 @@ public class IronLibraryApplication implements CommandLineRunner {
 	}
 
 	@Override
-	public void run(String... args) throws Exception {
+	public void run(String... args){
 
 		Library library = new Library(authorRepository, bookRepository,studentRepository, issueRepository);
 		library.temporaryTestMethod();

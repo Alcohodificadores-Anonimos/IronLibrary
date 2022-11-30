@@ -9,8 +9,6 @@ import com.example.IronLibrary.repositories.BookRepository;
 import com.example.IronLibrary.repositories.IssueRepository;
 import com.example.IronLibrary.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 
 import java.time.LocalDate;
@@ -115,7 +113,6 @@ public class Library {
     public void addBook() {
         Scanner scanner = new Scanner(System.in);
         Author author;
-        Book book;
         String isbn;
         String title;
         String category;
@@ -133,14 +130,14 @@ public class Library {
         System.out.println("Enter number of books");
         quantity = scanner.nextInt();
         System.out.println("Enter Author name");
-        //pongo 2 sino el scanner hace cosas raras
+        //pongo 2 si no el scanner hace cosas raras
         authorName = scanner.nextLine();
         authorName = scanner.nextLine();
         System.out.println("Enter Author mail");
         authorEmail = scanner.nextLine();
 
         author = authorRepository.save(new Author(authorName,authorEmail));
-        book = bookRepository.save(new Book(isbn, title, category,quantity, author));
+        bookRepository.save(new Book(isbn, title, category,quantity, author));
 
         System.out.println("Author saved into DB!");
         System.out.println("Book saved into DB!");
@@ -162,7 +159,6 @@ public class Library {
 
         Scanner scanner = new Scanner(System.in);
         String bookName;
-        boolean bookFound = false;
 
         System.out.println("Enter a book name");
         bookName = scanner.nextLine();
@@ -216,9 +212,9 @@ public class Library {
         System.out.println("Book ISBN"+ "\t" + "Book Title" + "\t" + "Category" + "\t" + "No of Books"+ "\t" +"Author name"+ "\t"+"\t" +"Author mail");
         if(!authorList.isEmpty()){
 
-            for (int i = 0; i < authorList.size(); i++) {
-                for (int j = 0; j < authorList.get(i).getAuthorBook().size(); j++) {
-                    System.out.println(authorList.get(i).getAuthorBook().get(j).toStringWithAuthor());
+            for (Author author : authorList) {
+                for (int j = 0; j < author.getAuthorBook().size(); j++) {
+                    System.out.println(author.getAuthorBook().get(j).toStringWithAuthor());
                 }
 
             }
@@ -277,8 +273,8 @@ public class Library {
 
 
     }
-    public List<Book> listBooksByUsn(String usn){
-        return null;
+    public void listBooksByUsn(){
+
     }
 
 }
