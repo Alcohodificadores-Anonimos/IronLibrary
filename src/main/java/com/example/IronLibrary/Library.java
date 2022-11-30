@@ -2,13 +2,18 @@ package com.example.IronLibrary;
 
 import com.example.IronLibrary.models.Author;
 import com.example.IronLibrary.models.Book;
+import com.example.IronLibrary.models.Issue;
+import com.example.IronLibrary.models.Student;
 import com.example.IronLibrary.repositories.AuthorRepository;
 import com.example.IronLibrary.repositories.BookRepository;
 import com.example.IronLibrary.repositories.IssueRepository;
 import com.example.IronLibrary.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
@@ -84,7 +89,6 @@ public class Library {
                     break;
                 case 3:
                     searchBookByCategory();
-                    //Hay que arreglarlo
                     break;
                 case 4:
                     searchBookByAuthor();
@@ -93,7 +97,7 @@ public class Library {
                     listAllBooksWithAuthor();
                     break;
                 case 6:
-
+                    issueBookToStudent();
                     break;
                 case 7:
                     break;
@@ -201,19 +205,24 @@ public class Library {
 
     public void searchBookByAuthor(){
         Scanner scanner = new Scanner(System.in);
-        String bookAuthor;
+        String authorName;
 
         System.out.println("Enter an Author Name");
-        bookAuthor = scanner.nextLine();
+        authorName = scanner.nextLine();
 
-        List<Book> bookList = bookRepository.findByAuthor(bookAuthor);
+        List<Author> authorList = authorRepository.findByName(authorName);
 
         //Hacemos el loop y no directamente el toString de la Lista para el formato del sout de cada libro
         System.out.println("Book ISBN"+ "\t" + "Book Title" + "\t" + "Category" + "\t" + "No of Books"+ "\t" +"Author name"+ "\t"+"\t" +"Author mail");
-        if(!bookList.isEmpty()){
-            for (Book book : bookList) {
-                System.out.println(book.toStringWithAuthor());
+        if(!authorList.isEmpty()){
+
+            for (int i = 0; i < authorList.size(); i++) {
+                for (int j = 0; j < authorList.get(i).getAuthorBook().size(); j++) {
+                    System.out.println(authorList.get(i).getAuthorBook().get(j).toStringWithAuthor());
+                }
+
             }
+
         }else{
             System.out.println("This author has no books");
         }
@@ -235,6 +244,37 @@ public class Library {
     }
 
     public void issueBookToStudent(){
+        Scanner scanner = new Scanner(System.in);
+        Student student;
+        Book book;
+        Issue issue;
+        String studentUsn;
+        String studentName;
+        String isbn;
+
+        System.out.println("Enter The Student's USN");
+        studentUsn = scanner.nextLine();
+        System.out.println("Enter The Student's Name");
+        studentName = scanner.nextLine();
+        if(studentRepository.findById(studentUsn).isPresent()){
+            student = studentRepository.findById(studentUsn).get();
+        }else{
+            student = new Student(studentUsn,studentName);
+            studentRepository.save(student);
+        }
+        System.out.println("Enter book ISBN");
+        isbn = scanner.nextLine();
+
+        //CONTROLAR QUE EL LIBRO ESTE SINO PETA EL PROGRAMA
+        book = bookRepository.findById(isbn).orElseThrow(() -> new IllegalArgumentException("The is any book with that ISBN"));
+
+        issue = new Issue(LocalDate.now(),  LocalDate.now().plusDays( 7 ),student,book);
+
+        issueRepository.save(issue);
+
+        System.out.println("Book issued. Return date : " + LocalDate.now().plusDays( 7 ));
+
+
 
     }
     public List<Book> listBooksByUsn(String usn){

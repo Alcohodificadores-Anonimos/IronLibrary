@@ -2,6 +2,8 @@ package com.example.IronLibrary.models;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 /*
 
 This class will have:
@@ -23,8 +25,8 @@ public class Issue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer issueId;
-    private String issueDate;
-    private String returnDate;
+    private LocalDate issueDate;
+    private LocalDate returnDate;
     @OneToOne
     @JoinColumn(name = "student_id")
     private Student issueStudent;
@@ -36,7 +38,7 @@ public class Issue {
     public Issue() {
     }
 
-    public Issue(String issueDate, String returnDate, Student issueStudent, Book issueBook) {
+    public Issue(LocalDate issueDate, LocalDate returnDate, Student issueStudent, Book issueBook) {
         this.issueDate = issueDate;
         this.returnDate = returnDate;
         this.issueStudent = issueStudent;

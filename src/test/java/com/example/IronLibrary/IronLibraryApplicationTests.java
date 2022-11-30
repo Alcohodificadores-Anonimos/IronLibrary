@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -47,7 +49,7 @@ class IronLibraryApplicationTests {
 		student = new Student("USN1", "Manu");
 		studentRepository.save(student);
 
-		issue = new Issue("26/11/2022","3/12/2022",student,book1);
+		issue = new Issue(LocalDate.of(2022, 11 ,30),LocalDate.of(2022,12,5),student,book1);
 		issueRepository.save(issue);
 
 

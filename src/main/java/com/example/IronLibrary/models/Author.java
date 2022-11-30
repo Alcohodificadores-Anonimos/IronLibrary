@@ -14,7 +14,7 @@ public class Author {
     private Integer authorId;
     private String name;
     private String email;
-    @OneToMany(mappedBy = "author" , fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "author" , fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Book> authorBook = new ArrayList<>();
 
