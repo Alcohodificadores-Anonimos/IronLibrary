@@ -68,7 +68,7 @@ class IronLibraryApplicationTests {
 
 	@Test
 	void findByTitle() {
-		assertEquals("Don Quijote",bookRepository.findAllByTitle("Don Quijote").get(0).getTitle());
+		assertEquals("Don Quijote",bookRepository.findByTitle("Don Quijote").get(0).getTitle());
 	}
 
 }

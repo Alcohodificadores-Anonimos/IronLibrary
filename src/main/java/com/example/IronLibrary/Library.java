@@ -141,6 +141,9 @@ public class Library {
         author = authorRepository.save(new Author(authorName,authorEmail));
         book = bookRepository.save(new Book(isbn, title, category,quantity, author));
 
+        System.out.println("Author saved into DB!");
+        System.out.println("Book saved into DB!");
+
 
     }
 
@@ -163,9 +166,16 @@ public class Library {
         System.out.println("Enter a book name");
         bookName = scanner.nextLine();
 
-       // System.out.println(bookRepository.findAll());
+        System.out.println("Book ISBN \t Book Title \t Category \t No of Books ");
 
-        for(Book b : bookRepository.findAllByTitle(bookName)){
+        List<Book> bookList = bookRepository.findByTitle(bookName);
+        if(!bookList.isEmpty()){
+            System.out.println(bookList.get(0));
+        }else{
+            System.out.println("There are no books with that name");
+        }
+
+     /*   for(Book b : bookRepository.findAllByTitle(bookName)){
 
             if(b != null) {
                 System.out.println(b);
@@ -174,7 +184,7 @@ public class Library {
 
         }
 
-        if(!bookFound) System.out.println("No hay ningún libro con este nombre.");
+        if(!bookFound) System.out.println("No hay ningún libro con este nombre.");*/
     }
 
     public void searchBookByCategory(String category){

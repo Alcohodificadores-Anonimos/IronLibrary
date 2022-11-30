@@ -27,7 +27,6 @@ public class Book {
     private Integer quantity;
     @ManyToOne
     @JoinColumn(name="author_id")
-    @JsonIgnore
     private Author author;
     @OneToOne(mappedBy = "issueBook")
     private Issue issueBookId;
