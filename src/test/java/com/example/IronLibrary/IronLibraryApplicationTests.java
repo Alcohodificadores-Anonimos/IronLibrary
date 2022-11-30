@@ -42,15 +42,7 @@ class IronLibraryApplicationTests {
 		book2 = new Book("ISBN2", "Novelas Ejemplares", "novela", 500,author);
 		bookRepository.save(book1);
 		bookRepository.save(book2);
-
-
-		author.getAuthorBook().add(book1);
-		author.getAuthorBook().add(book2);
-		authorRepository.save(author);
-
-	/*	author = new Author("Cervantes", "cervantes@mail.com", books);
-		authorRepository.save(author);*/
-
+		
 
 		student = new Student("USN1", "Manu");
 		studentRepository.save(student);

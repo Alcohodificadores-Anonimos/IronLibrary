@@ -112,4 +112,14 @@ public class Book {
                 '}';
     }
 
+    public String toStringSimplified() {
+
+        return isbn + "\t"+"\t" + title + "\t"+"\t" +category + "\t"+"\t" + quantity;
+    }
+
+    public String toStringWithAuthor() {
+
+        return isbn + "\t"+"\t" + title + "\t"+"\t" +category + "\t"+"\t" + quantity + "\t"+"\t" + author.getName()+ "\t"+"\t"+"\t" + author.getEmail();
+    }
+
 }

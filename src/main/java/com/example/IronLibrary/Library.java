@@ -8,9 +8,8 @@ import com.example.IronLibrary.repositories.IssueRepository;
 import com.example.IronLibrary.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class Library {
@@ -38,11 +37,11 @@ public class Library {
         Author a1 = new Author("a1","mail1");
         Author a2 = new Author("a2","mail2");
 
-        Book b = new Book("isbn","title","category",1,a);
-        Book b1 = new Book("isbn1","title1","category1",1,a1);
-        Book b2 = new Book("isbn2","title2","category2",1,a2);
-        Book b3 = new Book("isbn3","title3","category3",1,a2);
-        Book b4 = new Book("isbn4","title4","category4",1,a2);
+        Book b = new Book("123456","title","category1",100,a);
+        Book b1 = new Book("64312","title1","category1",10,a1);
+        Book b2 = new Book("963258","title2","category2",50,a2);
+        Book b3 = new Book("741852","title3","category3",75,a2);
+        Book b4 = new Book("147256","title4","category4",20,a2);
 
         authorRepository.saveAll(List.of(a,a1,a2));
         bookRepository.saveAll(List.of(b,b1,b2,b3,b4));
@@ -84,16 +83,14 @@ public class Library {
                     searchBookByTitle();
                     break;
                 case 3:
-
+                    searchBookByCategory();
+                    //Hay que arreglarlo
                     break;
                 case 4:
-
+                    searchBookByAuthor();
                     break;
                 case 5:
-                    System.out.println("Type the author's Id: ");
-                    Integer id = scanner.nextInt();
-                    Author author = authorRepository.findById(id).get();
-                    System.out.println(listAllBooksOfAuthor(author));
+                    listAllBooksWithAuthor();
                     break;
                 case 6:
 
@@ -166,36 +163,75 @@ public class Library {
         System.out.println("Enter a book name");
         bookName = scanner.nextLine();
 
-        System.out.println("Book ISBN \t Book Title \t Category \t No of Books ");
+        System.out.println("Book ISBN"+ "\t" + "Book Title" + "\t" + "Category" + "\t" + "No of Books");
 
         List<Book> bookList = bookRepository.findByTitle(bookName);
-        if(!bookList.isEmpty()){
-            System.out.println(bookList.get(0));
+
+        //Hacemos el loop y no directamente el toString de la Lista para el formato del sout de cada libro
+        if(!bookList.isEmpty()) {
+            for (Book book : bookList) {
+                System.out.println(book.toStringSimplified());
+            }
         }else{
             System.out.println("There are no books with that name");
         }
 
-     /*   for(Book b : bookRepository.findAllByTitle(bookName)){
+    }
 
-            if(b != null) {
-                System.out.println(b);
-                bookFound = true;
+    public void searchBookByCategory(){
+        Scanner scanner = new Scanner(System.in);
+        String bookCategory;
+
+
+        System.out.println("Enter a book category");
+        bookCategory = scanner.nextLine();
+
+        List<Book> bookList = bookRepository.findByCategory(bookCategory);
+
+        //Hacemos el loop y no directamente el toString de la Lista para el formato del sout de cada libro
+        System.out.println("Book ISBN"+ "\t" + "Book Title" + "\t" + "Category" + "\t" + "No of Books");
+        if(!bookList.isEmpty()){
+            for (Book book : bookList) {
+                System.out.println(book.toStringSimplified());
             }
+        }else{
+            System.out.println("There are no books in that category");
+        }
+    }
 
+    public void searchBookByAuthor(){
+        Scanner scanner = new Scanner(System.in);
+        String bookAuthor;
+
+        System.out.println("Enter an Author Name");
+        bookAuthor = scanner.nextLine();
+
+        List<Book> bookList = bookRepository.findByAuthor(bookAuthor);
+
+        //Hacemos el loop y no directamente el toString de la Lista para el formato del sout de cada libro
+        System.out.println("Book ISBN"+ "\t" + "Book Title" + "\t" + "Category" + "\t" + "No of Books"+ "\t" +"Author name"+ "\t"+"\t" +"Author mail");
+        if(!bookList.isEmpty()){
+            for (Book book : bookList) {
+                System.out.println(book.toStringWithAuthor());
+            }
+        }else{
+            System.out.println("This author has no books");
+        }
+    }
+
+
+    public void listAllBooksWithAuthor (){
+
+        List<Book> bookList = bookRepository.findAll();
+        System.out.println("Book ISBN"+ "\t" + "Book Title" + "\t" + "Category" + "\t" + "No of Books"+ "\t" +"Author name"+ "\t"+"\t" +"Author mail");
+        if(!bookList.isEmpty()){
+            for (Book book: bookList) {
+                System.out.println(book.toStringWithAuthor());
+            }
+        }else{
+            System.out.println("There is any book");
         }
 
-        if(!bookFound) System.out.println("No hay ningún libro con este nombre.");*/
-    }
-
-    public void searchBookByCategory(String category){
-
-    }
-
-    public void searchBookByAuthor(Author author){
-
-    }
-    public List<Book> listAllBooksOfAuthor (Author author){
-        return author.getAuthorBook();
     }
 
     public void issueBookToStudent(){
