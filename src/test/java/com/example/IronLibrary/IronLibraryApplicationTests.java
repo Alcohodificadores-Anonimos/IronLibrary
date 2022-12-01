@@ -44,14 +44,12 @@ class IronLibraryApplicationTests {
 		book2 = new Book("ISBN2", "Novelas Ejemplares", "novela", 500,author);
 		bookRepository.save(book1);
 		bookRepository.save(book2);
-		
 
 		student = new Student("USN1", "Manu");
 		studentRepository.save(student);
 
 		issue = new Issue(LocalDate.of(2022, 11 ,30),LocalDate.of(2022,12,5),student,book1);
 		issueRepository.save(issue);
-
 
 	}
 
