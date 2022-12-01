@@ -111,6 +111,7 @@ public class Library {
     }
 
     public void addBook() {
+
         Scanner scanner = new Scanner(System.in);
         Author author;
         String isbn;
@@ -120,28 +121,127 @@ public class Library {
         String authorName;
         String authorEmail;
 
-
         System.out.println("Enter isbn");
-        isbn = scanner.nextLine();
+
+        while (true) {
+
+            isbn = scanner.nextLine();
+
+            if (isbn.isEmpty()) {
+
+                System.out.println("Insert a valid ISBN!");
+
+            } else {
+
+                break;
+
+            }
+
+        }
+
         System.out.println("Enter title");
-        title = scanner.nextLine();
+
+        while (true) {
+
+            title = scanner.nextLine();
+
+            if (title.isEmpty()) {
+
+                System.out.println("Insert a valid title!");
+
+            } else {
+
+                break;
+
+            }
+
+        }
+
         System.out.println("Enter category");
-        category = scanner.nextLine();
+
+        while (true) {
+
+            category = scanner.nextLine();
+
+            if (category.isEmpty()) {
+
+                System.out.println("Insert a valid category!");
+
+            } else {
+
+                break;
+
+            }
+
+        }
+
         System.out.println("Enter number of books");
-        quantity = scanner.nextInt();
+
+        while (true) {
+
+            if (!scanner.hasNextInt()) {
+
+                System.out.println("Enter a number!");
+                scanner.next();
+
+            } else {
+
+                quantity = scanner.nextInt();
+
+                if (quantity > 0) {
+
+                    break;
+
+                } else {
+
+                    System.out.println("The number must be positive!");
+
+                }
+
+            }
+
+        }
+
         System.out.println("Enter Author name");
-        //pongo 2 si no el scanner hace cosas raras
-        authorName = scanner.nextLine();
-        authorName = scanner.nextLine();
+
+        while (true) {
+
+            authorName = scanner.nextLine();
+
+            if (authorName.isEmpty()) {
+
+                System.out.println("Insert a valid author name!");
+
+            } else {
+
+                break;
+
+            }
+
+        }
+
         System.out.println("Enter Author mail");
-        authorEmail = scanner.nextLine();
+
+        while (true) {
+
+            authorEmail = scanner.nextLine();
+
+            if (authorEmail.isEmpty()) {
+
+                System.out.println("Insert a valid author email!");
+
+            } else {
+
+                break;
+
+            }
+
+        }
 
         author = authorRepository.save(new Author(authorName,authorEmail));
         bookRepository.save(new Book(isbn, title, category,quantity, author));
 
-        System.out.println("Author saved into DB!");
-        System.out.println("Book saved into DB!");
-
+        System.out.println("Author saved into DB!\nBook saved into DB!");
 
     }
 
