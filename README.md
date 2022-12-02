@@ -89,3 +89,13 @@ Ejemplo dirección de directorios: ../IronLibrary/.idea/src/main/java/ironlibrar
 [![Image from Gyazo](https://i.gyazo.com/e20cc51e7bfbb8a90feb3056669c9248.png)](https://gyazo.com/e20cc51e7bfbb8a90feb3056669c9248)
 
     Si el USN no corresponde con ninguno de los registrados en la base de datos aparecerá el anterior mensaje.
+
+
+## CRÉDITOS
+Organización: Alcohodificadores-Anónimos® 2022
+
+Raul Ruiz: https://github.com/RaulRuiz1997    LinkedIn: https://www.linkedin.com/in/ra%C3%BAl-ruiz-pedrosa-3b4135164 \
+Eduard Blanco: https://github.com/eblancode   LinkedIn: https://www.linkedin.com/eduardblanco \
+Manuel Orfe: https://github.com/Manuelorfe    LinkedIn: https://www.linkedin.com/in/manuel-ortega-fernandez \
+Xavi Romero: https://github.com/xavi-dig      LinkedIn: https://www.linkedin.com/in/xaviromerolopez \
+Cristian Pérez: https://github.com/KogeCode   LinkedIn: https://www.linkedin.com/in/cristian-p%C3%A9rez-barbero-87616478/
