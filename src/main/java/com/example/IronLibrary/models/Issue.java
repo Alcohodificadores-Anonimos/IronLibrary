@@ -1,23 +1,9 @@
 package com.example.IronLibrary.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-
-/*
-
-This class will have:
-
-Variable called issueId of data type integer, auto-incremented (Private member)
-Variable called issueDate of data type string (Private member)
-Variable called returnDate of data type string (Private member)
-Variable called issueStudent of data type Student, representing a One-to-One relationship with Student(Private member)
-Variable called issueBook of data type Book, representing a One-to-One relationship with Book (Private member)
-A parameterized constructor that takes issueDate, returnDate, issueStudent and issueBook
-Public Getter functions to access these variables
-Public Setter functions to change these variables
-Optional attributes are accepted if needed based on the code structure
- */
 
 @Entity
 public class Issue {
@@ -29,6 +15,7 @@ public class Issue {
     private LocalDate returnDate;
     @ManyToOne
     @JoinColumn(name = "student_id")
+    // @JsonIgnore
     private Student issueStudent;
     @OneToOne
     @JoinColumn(name = "book_id")

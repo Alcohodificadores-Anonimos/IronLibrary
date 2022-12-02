@@ -14,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.Format;
 import java.time.LocalDate;
-import java.util.Formatter;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Library {
 
@@ -68,7 +66,8 @@ public class Library {
                 5. List all books along with author
                 6. Issue book to student
                 7. List books by usn
-                8. Exit                         
+                8. Display books to be returned today
+                9. Exit                         
                 """);
 
     }
@@ -124,6 +123,9 @@ public class Library {
                     listBooksByUsn();
                     break;
                 case 8:
+                    booksThatNeedToBeReturnedToday();
+                    break;
+                case 9:
                     System.out.println("The program is over");
                     System.exit(0);
                     break;
@@ -371,7 +373,7 @@ public class Library {
         //Hacemos el loop y no directamente el toString de la Lista para el formato del sout de cada libro
         if (!authorList.isEmpty()) {
             Formatter fmt = new Formatter();
-            fmt.format("%15s %14s %14s %15s %15s %15s\n","Book ISBN","Book Title","Category","No of Books","Author name","Author mail");
+            fmt.format("%15s %14s %14s %15s %15s %15s\n", "Book ISBN", "Book Title", "Category", "No of Books", "Author name", "Author mail");
             for (Author author : authorList) {
                 for (int j = 0; j < author.getAuthorBook().size(); j++) {
                     fmt = author.getAuthorBook().get(j).toStringListWithAuthor(fmt);
@@ -388,7 +390,7 @@ public class Library {
 
         List<Book> bookList = bookRepository.findAll();
         Formatter fmt = new Formatter();
-        fmt.format("%15s %14s %14s %15s %15s %15s\n","Book ISBN","Book Title","Category","No of Books","Author name","Author mail");
+        fmt.format("%15s %14s %14s %15s %15s %15s\n", "Book ISBN", "Book Title", "Category", "No of Books", "Author name", "Author mail");
         if (!bookList.isEmpty()) {
             for (Book book : bookList) {
                 fmt = book.toStringListWithAuthor(fmt);
@@ -517,7 +519,7 @@ public class Library {
 
             Formatter fmt = new Formatter();
 
-            fmt.format("%15s %14s %14s %15s\n","Book ISBN","Book Title","Category","No of Books");
+            fmt.format("%15s %14s %14s %15s\n", "Book ISBN", "Book Title", "Category", "No of Books");
 
             for (Book book : bookList) {
 
@@ -578,6 +580,40 @@ public class Library {
         } else {
 
             System.err.println("The USN doesn't match.");
+
+        }
+
+    }
+
+    // Método BONUS para devolver lista de libros que se tienen que devolver hoy
+    public void booksThatNeedToBeReturnedToday() {
+
+        List<Issue> issueList;
+        List<Book> booksThatNeedToBeReturnedToday = new ArrayList<>();
+
+        issueList = issueRepository.findAll();
+
+        for (Issue issue : issueList) {
+
+            if (issue.getReturnDate().equals(LocalDate.now())) {
+
+                booksThatNeedToBeReturnedToday.add(issueRepository.findById(issue.getIssueId()).get().getIssueBook());
+
+            }
+
+        }
+
+        if (booksThatNeedToBeReturnedToday.isEmpty()) {
+
+            System.out.println("There are any books that need to be returned today!");
+
+        } else {
+
+            for (int i = 0; i < booksThatNeedToBeReturnedToday.size(); i++) {
+
+                System.out.println(i + ". " +  booksThatNeedToBeReturnedToday.get(i).getTitle());
+
+            }
 
         }
 

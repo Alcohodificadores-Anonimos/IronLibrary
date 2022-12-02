@@ -1,5 +1,6 @@
 package com.example.IronLibrary.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 //import org.springframework.format.Formatter;
 
@@ -29,10 +30,11 @@ public class Book {
     private Integer quantity;
     @ManyToOne
     @JoinColumn(name="author_id")
+    // @JsonIgnore
     private Author author;
     @OneToOne(mappedBy = "issueBook")
+    // @JsonIgnore
     private Issue issueBookId;
-
 
     public Book() {
     }
@@ -43,15 +45,6 @@ public class Book {
         this.category = category;
         this.quantity = quantity;
         this.author = author;
-    }
-
-    public Book(String isbn, String title, String category, Integer quantity, Author author, Issue issueId) {
-        this.isbn = isbn;
-        this.title = title;
-        this.category = category;
-        this.quantity = quantity;
-        this.author = author;
-        this.issueBookId = issueId;
     }
 
     public String getIsbn() {
@@ -115,7 +108,6 @@ public class Book {
     }
 
     public String toStringSimplifiedd() {
-
         return isbn + "\t"+"\t" + title + "\t"+"\t" +category + "\t"+"\t" + quantity;
     }
 
