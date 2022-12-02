@@ -19,6 +19,7 @@ import java.util.*;
 public class Library {
 
     Scanner scanner = new Scanner(System.in);
+    Formatter fmt = new Formatter();
 
     public Library(AuthorRepository authorRepository, BookRepository bookRepository, StudentRepository studentRepository, IssueRepository issueRepository) {
         this.authorRepository = authorRepository;
@@ -58,7 +59,7 @@ public class Library {
     public void displayOptions() {
 
         System.out.println("""
-                                            
+
                 1. Add a book
                 2. Search book by title
                 3. Search book by category
@@ -565,17 +566,18 @@ public class Library {
             }
 
             // todo: EDU MIRAR ESTO PARA QUE IMPRIMA BIEN
+            fmt.format("%15s %14s %14s\n","Book Title","Student Name","Return date");
 
-            System.out.println("Book Title" + "\t" + "Student Name" + "\t" + "\t" + "Return date");
+//            System.out.println("Book Title" + "\t" + "Student Name" + "\t" + "\t" + "Return date");
 
             // Por cada issue que haya por ese USN imprimimos el nombre del titulo, el nombre del estudiante y la fecha retorno
             for (Issue issue : issueList) {
 
                 book = bookRepository.findById(issue.getIssueBook().getIsbn()).get();
-
-                System.out.println(book.getTitle() + "\t" + "\t" + student.getName() + "\t" + "\t" + issue.getReturnDate());
+                fmt.format("%14s %14s %14s\n", book.getTitle(),student.getName(),issue.getReturnDate());
 
             }
+            System.out.println(fmt);
 
         } else {
 
