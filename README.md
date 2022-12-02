@@ -16,7 +16,7 @@ Ejemplo dirección de directorios: ../IronLibrary/.idea/src/main/java/ironlibrar
 
 ## INSTRUCCIONES DEL PROGRAMA PARA SU USO
 ### Menú de inicio
-[![Image from Gyazo](https://i.gyazo.com/0e6d7608fd9ea84b4a84499ce9acc4fb.png)](https://gyazo.com/0e6d7608fd9ea84b4a84499ce9acc4fb)
+[![Image from Gyazo](https://i.gyazo.com/898d72f35407ce5a30f4d9cc846bf62a.png)](https://gyazo.com/898d72f35407ce5a30f4d9cc846bf62a)
       
       Podremos escoger una de las diversas opciones que nos ofrece el programa.
       
@@ -90,6 +90,10 @@ Ejemplo dirección de directorios: ../IronLibrary/.idea/src/main/java/ironlibrar
 
     Si el USN no corresponde con ninguno de los registrados en la base de datos aparecerá el anterior mensaje.
 
+### 8.- BONUS OPTION. Display books to be returned today
+[![Image from Gyazo](https://i.gyazo.com/b8e44e2c95ed2ba0389087b42174c8f5.png)](https://gyazo.com/b8e44e2c95ed2ba0389087b42174c8f5)
+            
+    Nos devolverá un listado con los libros prestados que han de devolverse ese día.
 
 ## CRÉDITOS
 Organización: Alcohodificadores-Anónimos® 2022
