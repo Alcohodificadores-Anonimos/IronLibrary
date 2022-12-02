@@ -21,6 +21,7 @@ import java.util.Scanner;
 public class Library {
 
     Scanner scanner = new Scanner(System.in);
+    Formatter fmt = new Formatter();
 
     public Library(AuthorRepository authorRepository, BookRepository bookRepository, StudentRepository studentRepository, IssueRepository issueRepository) {
         this.authorRepository = authorRepository;
@@ -60,7 +61,7 @@ public class Library {
     public void displayOptions() {
 
         System.out.println("""
-                                            
+
                 1. Add a book
                 2. Search book by title
                 3. Search book by category
@@ -68,7 +69,7 @@ public class Library {
                 5. List all books along with author
                 6. Issue book to student
                 7. List books by usn
-                8. Exit                         
+                8. Exit
                 """);
 
     }
@@ -370,7 +371,6 @@ public class Library {
 
         //Hacemos el loop y no directamente el toString de la Lista para el formato del sout de cada libro
         if (!authorList.isEmpty()) {
-            Formatter fmt = new Formatter();
             fmt.format("%15s %14s %14s %15s %15s %15s\n","Book ISBN","Book Title","Category","No of Books","Author name","Author mail");
             for (Author author : authorList) {
                 for (int j = 0; j < author.getAuthorBook().size(); j++) {
@@ -387,7 +387,7 @@ public class Library {
     public void listAllBooksWithAuthor() {
 
         List<Book> bookList = bookRepository.findAll();
-        Formatter fmt = new Formatter();
+//        System.out.println("Book ISBN" + "\t" + "Book Title" + "\t" + "Category" + "\t" + "No of Books" + "\t" + "Author name" + "\t" + "\t" + "Author mail");
         fmt.format("%15s %14s %14s %15s %15s %15s\n","Book ISBN","Book Title","Category","No of Books","Author name","Author mail");
         if (!bookList.isEmpty()) {
             for (Book book : bookList) {
@@ -514,9 +514,6 @@ public class Library {
     public void printBook(List<Book> bookList) {
 
         if (!bookList.isEmpty()) {
-
-            Formatter fmt = new Formatter();
-
             fmt.format("%15s %14s %14s %15s\n","Book ISBN","Book Title","Category","No of Books");
 
             for (Book book : bookList) {
@@ -563,17 +560,18 @@ public class Library {
             }
 
             // todo: EDU MIRAR ESTO PARA QUE IMPRIMA BIEN
+            fmt.format("%15s %14s %14s\n","Book Title","Student Name","Return date");
 
-            System.out.println("Book Title" + "\t" + "Student Name" + "\t" + "\t" + "Return date");
+//            System.out.println("Book Title" + "\t" + "Student Name" + "\t" + "\t" + "Return date");
 
             // Por cada issue que haya por ese USN imprimimos el nombre del titulo, el nombre del estudiante y la fecha retorno
             for (Issue issue : issueList) {
 
                 book = bookRepository.findById(issue.getIssueBook().getIsbn()).get();
-
-                System.out.println(book.getTitle() + "\t" + "\t" + student.getName() + "\t" + "\t" + issue.getReturnDate());
+                fmt.format("%14s %14s %14s\n", book.getTitle(),student.getName(),issue.getReturnDate());
 
             }
+            System.out.println(fmt);
 
         } else {
 
