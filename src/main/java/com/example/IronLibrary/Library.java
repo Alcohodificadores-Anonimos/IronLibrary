@@ -495,9 +495,7 @@ public class Library {
                 book.setQuantity(book.getQuantity() - 1);
 
                 bookRepository.save(book);
-
                 issue = new Issue(LocalDate.now(), LocalDate.now().plusDays(7), student, book);
-
                 issueRepository.save(issue);
 
                 System.out.println("Book issued. Return date : " + LocalDate.now().plusDays(7));
@@ -613,7 +611,7 @@ public class Library {
 
             for (int i = 0; i < booksThatNeedToBeReturnedToday.size(); i++) {
 
-                System.out.println(i + ". " +  booksThatNeedToBeReturnedToday.get(i).getTitle());
+                System.out.println((i+1) + ". " +  booksThatNeedToBeReturnedToday.get(i).getTitle());
 
             }
 
