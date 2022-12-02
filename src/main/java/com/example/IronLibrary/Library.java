@@ -21,6 +21,7 @@ import java.util.Scanner;
 public class Library {
 
     Scanner scanner = new Scanner(System.in);
+    Formatter fmt = new Formatter();
 
     public Library(AuthorRepository authorRepository, BookRepository bookRepository, StudentRepository studentRepository, IssueRepository issueRepository) {
         this.authorRepository = authorRepository;
@@ -343,7 +344,6 @@ public class Library {
 //        System.out.println("Book ISBN" + "\t" + "Book Title" + "\t" + "Category" + "\t" + "No of Books" + "\t" + "Author name" + "\t" + "\t" + "Author mail");
 
         if (!authorList.isEmpty()) {
-            Formatter fmt = new Formatter();
             fmt.format("%15s %14s %14s %15s %15s %15s\n","Book ISBN","Book Title","Category","No of Books","Author name","Author mail");
             for (Author author : authorList) {
                 for (int j = 0; j < author.getAuthorBook().size(); j++) {
@@ -362,7 +362,6 @@ public class Library {
 
         List<Book> bookList = bookRepository.findAll();
 //        System.out.println("Book ISBN" + "\t" + "Book Title" + "\t" + "Category" + "\t" + "No of Books" + "\t" + "Author name" + "\t" + "\t" + "Author mail");
-        Formatter fmt = new Formatter();
         fmt.format("%15s %14s %14s %15s %15s %15s\n","Book ISBN","Book Title","Category","No of Books","Author name","Author mail");
         if (!bookList.isEmpty()) {
             for (Book book : bookList) {
@@ -477,7 +476,6 @@ public class Library {
 
     public void printBook(List<Book> bookList) {
         if (!bookList.isEmpty()) {
-            Formatter fmt = new Formatter();
             fmt.format("%15s %14s %14s %15s\n","Book ISBN","Book Title","Category","No of Books");
             for (Book book : bookList) {
 //            System.out.println(book.toStringListWithAuthor());
@@ -514,16 +512,17 @@ public class Library {
             }
 
             // todo: EDU MIRAR ESTO PARA QUE IMPRIMA BIEN
+            fmt.format("%15s %14s %14s\n","Book Title","Student Name","Return date");
 
-            System.out.println("Book Title" + "\t" + "Student Name" + "\t" + "\t" + "Return date");
+//            System.out.println("Book Title" + "\t" + "Student Name" + "\t" + "\t" + "Return date");
 
             for (Issue issue : issueList) {
 
                 book = bookRepository.findById(issue.getIssueBook().getIsbn()).get();
-
-                System.out.println(book.getTitle() + "\t" + "\t" + student.getName() + "\t" + "\t" + issue.getReturnDate());
+                fmt.format("%14s %14s %14s\n", book.getTitle(),student.getName(),issue.getReturnDate());
 
             }
+            System.out.println(fmt);
 
         } else {
             System.err.println("The USN doesn't match.");
