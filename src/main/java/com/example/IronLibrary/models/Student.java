@@ -1,8 +1,8 @@
 package com.example.IronLibrary.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Student {
@@ -10,8 +10,8 @@ public class Student {
     @Id
     private String usn;
     private String name;
-    @OneToOne(mappedBy = "issueStudent")
-    private Issue issueStudentId;
+    @OneToMany(mappedBy = "issueStudent", fetch = FetchType.EAGER)
+    private List<Issue> issueList;
 
     public Student() {
     }
@@ -19,12 +19,6 @@ public class Student {
     public Student(String usn, String data) {
         this.usn = usn;
         this.name = data;
-    }
-
-    public Student(String usn, String data, Issue issueStudentId) {
-        this.usn = usn;
-        this.name = data;
-        this.issueStudentId = issueStudentId;
     }
 
     public String getUsn() {
@@ -43,12 +37,12 @@ public class Student {
         this.name = name;
     }
 
-    public Issue getIssueStudentId() {
-        return issueStudentId;
+    public List<Issue> getissueList() {
+        return issueList;
     }
 
-    public void setIssueStudentId(Issue issueStudentId) {
-        this.issueStudentId = issueStudentId;
+    public void setissueList(List<Issue> issueList) {
+        this.issueList = issueList;
     }
 
 }
