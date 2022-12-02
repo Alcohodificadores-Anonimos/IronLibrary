@@ -1,9 +1,11 @@
 package com.example.IronLibrary.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.lang.NonNull;
+//import org.springframework.format.Formatter;
+
+
+import java.util.ArrayList;
+import java.util.Formatter;
 /*
 This class will have:
 
@@ -112,14 +114,21 @@ public class Book {
                 '}';
     }
 
-    public String toStringSimplified() {
+    public String toStringSimplifiedd() {
 
         return isbn + "\t"+"\t" + title + "\t"+"\t" +category + "\t"+"\t" + quantity;
     }
 
     public String toStringWithAuthor() {
-
         return isbn + "\t"+"\t" + title + "\t"+"\t" +category + "\t"+"\t" + quantity + "\t"+"\t" + author.getName()+ "\t"+"\t"+"\t" + author.getEmail();
+    }
+
+    public Formatter toStringSimplified(Formatter fmt) {
+        return fmt.format("%15s %14s %14s %15s\n", isbn,title,category,quantity);
+    }
+
+    public Formatter toStringListWithAuthor(Formatter fmt) {
+        return fmt.format("%15s %14s %14s %15s %15s %15s\n", isbn,title,category,quantity,author.getName(),author.getEmail());
     }
 
 }

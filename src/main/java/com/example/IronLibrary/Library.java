@@ -11,7 +11,9 @@ import com.example.IronLibrary.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
+import java.text.Format;
 import java.time.LocalDate;
+import java.util.Formatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -268,18 +270,12 @@ public class Library {
 
         }
 
-        System.out.println("Book ISBN" + "\t" + "Book Title" + "\t" + "Category" + "\t" + "No of Books");
+//      System.out.println("Book ISBN" + "\t" + "Book Title" + "\t" + "Category" + "\t" + "No of Books");
 
-        List<Book> bookList = bookRepository.findByTitle(bookName);
+//        List<Book> bookList = bookRepository.findByTitle(bookName);
 
         //Hacemos el loop y no directamente el toString de la Lista para el formato del sout de cada libro
-        if (!bookList.isEmpty()) {
-            for (Book book : bookList) {
-                System.out.println(book.toStringSimplified());
-            }
-        } else {
-            System.out.println("There are no books with that name");
-        }
+        printBook(bookRepository.findByTitle(bookName));
 
     }
 
@@ -306,17 +302,11 @@ public class Library {
 
         }
 
-        List<Book> bookList = bookRepository.findByCategory(bookCategory);
+//        List<Book> bookList = bookRepository.findByCategory(bookCategory);
 
         //Hacemos el loop y no directamente el toString de la Lista para el formato del sout de cada libro
-        System.out.println("Book ISBN" + "\t" + "Book Title" + "\t" + "Category" + "\t" + "No of Books");
-        if (!bookList.isEmpty()) {
-            for (Book book : bookList) {
-                System.out.println(book.toStringSimplified());
-            }
-        } else {
-            System.out.println("There are no books in that category");
-        }
+//        System.out.println("Book ISBN" + "\t" + "Book Title" + "\t" + "Category" + "\t" + "No of Books");
+        printBook(bookRepository.findByCategory(bookCategory));
 
     }
 
@@ -346,16 +336,18 @@ public class Library {
         List<Author> authorList = authorRepository.findByName(authorName);
 
         //Hacemos el loop y no directamente el toString de la Lista para el formato del sout de cada libro
-        System.out.println("Book ISBN" + "\t" + "Book Title" + "\t" + "Category" + "\t" + "No of Books" + "\t" + "Author name" + "\t" + "\t" + "Author mail");
-        if (!authorList.isEmpty()) {
+//        System.out.println("Book ISBN" + "\t" + "Book Title" + "\t" + "Category" + "\t" + "No of Books" + "\t" + "Author name" + "\t" + "\t" + "Author mail");
 
+        if (!authorList.isEmpty()) {
+            Formatter fmt = new Formatter();
+            fmt.format("%15s %14s %14s %15s %15s %15s\n","Book ISBN","Book Title","Category","No of Books","Author name","Author mail");
             for (Author author : authorList) {
                 for (int j = 0; j < author.getAuthorBook().size(); j++) {
-                    System.out.println(author.getAuthorBook().get(j).toStringWithAuthor());
+                    fmt = author.getAuthorBook().get(j).toStringListWithAuthor(fmt);
+//                  System.out.println(author.getAuthorBook().get(j).toStringListWithAuthor(fmt));
                 }
-
             }
-
+            System.out.println(fmt);
         } else {
             System.out.println("This author has no books");
         }
@@ -365,11 +357,15 @@ public class Library {
     public void listAllBooksWithAuthor() {
 
         List<Book> bookList = bookRepository.findAll();
-        System.out.println("Book ISBN" + "\t" + "Book Title" + "\t" + "Category" + "\t" + "No of Books" + "\t" + "Author name" + "\t" + "\t" + "Author mail");
+//        System.out.println("Book ISBN" + "\t" + "Book Title" + "\t" + "Category" + "\t" + "No of Books" + "\t" + "Author name" + "\t" + "\t" + "Author mail");
+        Formatter fmt = new Formatter();
+        fmt.format("%15s %14s %14s %15s %15s %15s\n","Book ISBN","Book Title","Category","No of Books","Author name","Author mail");
         if (!bookList.isEmpty()) {
             for (Book book : bookList) {
-                System.out.println(book.toStringWithAuthor());
+//                System.out.println(book.toStringWithAuthor());
+                fmt = book.toStringListWithAuthor(fmt);
             }
+            System.out.println(fmt);
         } else {
             System.out.println("There is any book");
         }
@@ -457,6 +453,20 @@ public class Library {
         System.out.println("Book issued. Return date : " + LocalDate.now().plusDays(7));
 
 
+    }
+
+    public void printBook(List<Book> bookList) {
+        if (!bookList.isEmpty()) {
+            Formatter fmt = new Formatter();
+            fmt.format("%15s %14s %14s %15s\n","Book ISBN","Book Title","Category","No of Books");
+            for (Book book : bookList) {
+//            System.out.println(book.toStringListWithAuthor());
+                fmt = book.toStringSimplified(fmt);
+            }
+            System.out.println(fmt);
+        } else {
+            System.out.println("Books not found");
+        }
     }
 
     public void listBooksByUsn() {
