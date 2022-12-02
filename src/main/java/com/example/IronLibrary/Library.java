@@ -38,6 +38,7 @@ public class Library {
     @Autowired
     IssueRepository issueRepository;
 
+    // Método para guardar autores y libros
     public void temporaryTestMethod() {
 
         Author a = new Author("a", "email");
@@ -55,34 +56,52 @@ public class Library {
 
     }
 
+    // Método para imprimir el menú
     public void displayOptions() {
 
-        System.out.println("1. Add a book");
-        System.out.println("2. Search book by title");
-        System.out.println("3. Search book by category");
-        System.out.println("4. Search book by Author");
-        System.out.println("5. List all books along with author");
-        System.out.println("6. Issue book to student");
-        System.out.println("7. List books by usn");
-        System.out.println("8. Exit");
+        System.out.println("""
+                                            
+                1. Add a book
+                2. Search book by title
+                3. Search book by category
+                4. Search book by Author
+                5. List all books along with author
+                6. Issue book to student
+                7. List books by usn
+                8. Exit                         
+                """);
+
     }
 
+    // Método para seleccionar las opciones del menú
     public void menu() {
 
         short menu;
 
         while (true) {
+
+            // Imprimimos menú
             displayOptions();
+
+            // Validamos que los datos introducidos sean de tipo short
             while (true) {
+
                 if (!scanner.hasNextShort()) {
+
                     System.err.println("Select an option (1 to 8): ");
                     scanner.next();
+
                 } else {
+
                     menu = scanner.nextShort();
                     break;
+
                 }
+
             }
+
             switch (menu) {
+
                 case 1:
                     addBook();
                     break;
@@ -111,10 +130,14 @@ public class Library {
                 default:
                     System.out.println("Enter a valid option");
                     break;
+
             }
+
         }
+
     }
 
+    // Método para añadir un libro
     public void addBook() {
 
         Scanner scanner = new Scanner(System.in);
@@ -128,6 +151,7 @@ public class Library {
 
         System.out.println("Enter isbn");
 
+        // Validamos que los datos introducidos no sean vacíos
         while (true) {
 
             isbn = scanner.nextLine();
@@ -146,6 +170,7 @@ public class Library {
 
         System.out.println("Enter title");
 
+        // Validamos que los datos introducidos no sean vacíos
         while (true) {
 
             title = scanner.nextLine();
@@ -164,6 +189,7 @@ public class Library {
 
         System.out.println("Enter category");
 
+        // Validamos que los datos introducidos no sean vacíos
         while (true) {
 
             category = scanner.nextLine();
@@ -182,6 +208,7 @@ public class Library {
 
         System.out.println("Enter number of books");
 
+        // Validamos que los datos introducidos no sean vacíos
         while (true) {
 
             if (!scanner.hasNextInt()) {
@@ -210,6 +237,7 @@ public class Library {
         System.out.println("Enter Author name");
         authorName = scanner.nextLine();
 
+        // Validamos que los datos introducidos no sean vacíos
         while (true) {
 
             authorName = scanner.nextLine();
@@ -228,6 +256,7 @@ public class Library {
 
         System.out.println("Enter Author email");
 
+        // Validamos que los datos introducidos no sean vacíos
         while (true) {
 
             authorEmail = scanner.nextLine();
@@ -244,6 +273,7 @@ public class Library {
 
         }
 
+        // Guardamos en el repositorio el autor y el libro
         author = authorRepository.save(new Author(authorName, authorEmail));
         bookRepository.save(new Book(isbn, title, category, quantity, author));
 
@@ -251,6 +281,7 @@ public class Library {
 
     }
 
+    // Método para buscar libro por su título
     public void searchBookByTitle() {
 
         Scanner scanner = new Scanner(System.in);
@@ -258,6 +289,7 @@ public class Library {
 
         System.out.println("Enter a book name");
 
+        // Validamos que los datos introducidos no sean vacíos
         while (true) {
 
             bookName = scanner.nextLine();
@@ -274,15 +306,12 @@ public class Library {
 
         }
 
-//      System.out.println("Book ISBN" + "\t" + "Book Title" + "\t" + "Category" + "\t" + "No of Books");
-
-//        List<Book> bookList = bookRepository.findByTitle(bookName);
-
         //Hacemos el loop y no directamente el toString de la Lista para el formato del sout de cada libro
         printBook(bookRepository.findByTitle(bookName));
 
     }
 
+    // Método para buscar libro por u categoría
     public void searchBookByCategory() {
 
         Scanner scanner = new Scanner(System.in);
@@ -290,6 +319,7 @@ public class Library {
 
         System.out.println("Enter a book category");
 
+        // Validamos que los datos introducidos no sean vacíos
         while (true) {
 
             bookCategory = scanner.nextLine();
@@ -306,14 +336,12 @@ public class Library {
 
         }
 
-//        List<Book> bookList = bookRepository.findByCategory(bookCategory);
-
         //Hacemos el loop y no directamente el toString de la Lista para el formato del sout de cada libro
-//        System.out.println("Book ISBN" + "\t" + "Book Title" + "\t" + "Category" + "\t" + "No of Books");
         printBook(bookRepository.findByCategory(bookCategory));
 
     }
 
+    // Método para buscar liobro por su autor
     public void searchBookByAuthor() {
 
         Scanner scanner = new Scanner(System.in);
@@ -321,6 +349,7 @@ public class Library {
 
         System.out.println("Enter an Author Name");
 
+        // Validamos que los datos introducidos no sean vacíos
         while (true) {
 
             authorName = scanner.nextLine();
@@ -340,15 +369,12 @@ public class Library {
         List<Author> authorList = authorRepository.findByName(authorName);
 
         //Hacemos el loop y no directamente el toString de la Lista para el formato del sout de cada libro
-//        System.out.println("Book ISBN" + "\t" + "Book Title" + "\t" + "Category" + "\t" + "No of Books" + "\t" + "Author name" + "\t" + "\t" + "Author mail");
-
         if (!authorList.isEmpty()) {
             Formatter fmt = new Formatter();
             fmt.format("%15s %14s %14s %15s %15s %15s\n","Book ISBN","Book Title","Category","No of Books","Author name","Author mail");
             for (Author author : authorList) {
                 for (int j = 0; j < author.getAuthorBook().size(); j++) {
                     fmt = author.getAuthorBook().get(j).toStringListWithAuthor(fmt);
-//                  System.out.println(author.getAuthorBook().get(j).toStringListWithAuthor(fmt));
                 }
             }
             System.out.println(fmt);
@@ -357,16 +383,14 @@ public class Library {
         }
     }
 
-
+    // Método para listar todos los libros con autor
     public void listAllBooksWithAuthor() {
 
         List<Book> bookList = bookRepository.findAll();
-//        System.out.println("Book ISBN" + "\t" + "Book Title" + "\t" + "Category" + "\t" + "No of Books" + "\t" + "Author name" + "\t" + "\t" + "Author mail");
         Formatter fmt = new Formatter();
         fmt.format("%15s %14s %14s %15s %15s %15s\n","Book ISBN","Book Title","Category","No of Books","Author name","Author mail");
         if (!bookList.isEmpty()) {
             for (Book book : bookList) {
-//                System.out.println(book.toStringWithAuthor());
                 fmt = book.toStringListWithAuthor(fmt);
             }
             System.out.println(fmt);
@@ -376,6 +400,7 @@ public class Library {
 
     }
 
+    // Método para buscar los libros prestados a los estudiantes
     public void issueBookToStudent() {
 
         Scanner scanner = new Scanner(System.in);
@@ -388,6 +413,7 @@ public class Library {
 
         System.out.println("Enter The Student's USN");
 
+        // Validamos que los datos introducidos no sean vacíos
         while (true) {
 
             studentUsn = scanner.nextLine();
@@ -406,6 +432,7 @@ public class Library {
 
         System.out.println("Enter The Student's Name");
 
+        // Validamos que los datos introducidos no sean vacíos
         while (true) {
 
             studentName = scanner.nextLine();
@@ -422,6 +449,8 @@ public class Library {
 
         }
 
+        // Buscamos estudiante por ID, si lo encontramos lo guardamos en una variable, si no, lo creamos y lo guardamos
+        // en la base de datos
         if (studentRepository.findById(studentUsn).isPresent()) {
             student = studentRepository.findById(studentUsn).get();
         } else {
@@ -431,6 +460,7 @@ public class Library {
 
         System.out.println("Enter book ISBN");
 
+        // Validamos que los datos introducidos no sean vacíos
         while (true) {
 
             isbn = scanner.nextLine();
@@ -447,14 +477,18 @@ public class Library {
 
         }
 
+        // Buscamos el libro por su ISBN
         if (bookRepository.findById(isbn).isPresent()) {
 
             book = bookRepository.findById(isbn).get();
 
-
+            // Si no hay libros disponibles avisamos, sino lo restamos de la cantidad que haya disponible
             if (book.getQuantity() <= 0) {
+
                 System.err.println("No hay libros disponibles.");
+
             } else {
+
                 book.setQuantity(book.getQuantity() - 1);
 
                 bookRepository.save(book);
@@ -464,6 +498,7 @@ public class Library {
                 issueRepository.save(issue);
 
                 System.out.println("Book issued. Return date : " + LocalDate.now().plusDays(7));
+
             }
 
 
@@ -475,20 +510,32 @@ public class Library {
 
     }
 
+    // Método para imprimir todos los libros
     public void printBook(List<Book> bookList) {
+
         if (!bookList.isEmpty()) {
+
             Formatter fmt = new Formatter();
+
             fmt.format("%15s %14s %14s %15s\n","Book ISBN","Book Title","Category","No of Books");
+
             for (Book book : bookList) {
-//            System.out.println(book.toStringListWithAuthor());
+
                 fmt = book.toStringSimplified(fmt);
+
             }
+
             System.out.println(fmt);
+
         } else {
+
             System.out.println("Books not found");
+
         }
+
     }
 
+    // Método para listar todos los libros por USN
     public void listBooksByUsn() {
 
         Scanner scanner = new Scanner(System.in);
@@ -502,12 +549,14 @@ public class Library {
         System.out.println("Enter the USN");
         String usn = scanner.nextLine();
 
+        // Comprobamos que exista el USN
         if (studentRepository.findById(usn).isPresent()) {
 
             student = studentRepository.findById(usn).get();
 
             issueList = student.getissueList();
 
+            // Si no hay ningún issue lo mostramos y salimos
             if (issueList.isEmpty()) {
                 System.out.println("There isn't any USN saved yet!");
                 return;
@@ -517,6 +566,7 @@ public class Library {
 
             System.out.println("Book Title" + "\t" + "Student Name" + "\t" + "\t" + "Return date");
 
+            // Por cada issue que haya por ese USN imprimimos el nombre del titulo, el nombre del estudiante y la fecha retorno
             for (Issue issue : issueList) {
 
                 book = bookRepository.findById(issue.getIssueBook().getIsbn()).get();
@@ -526,8 +576,11 @@ public class Library {
             }
 
         } else {
+
             System.err.println("The USN doesn't match.");
+
         }
+
     }
 
 }
