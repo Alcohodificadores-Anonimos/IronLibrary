@@ -8,6 +8,7 @@ import com.example.IronLibrary.repositories.AuthorRepository;
 import com.example.IronLibrary.repositories.BookRepository;
 import com.example.IronLibrary.repositories.IssueRepository;
 import com.example.IronLibrary.repositories.StudentRepository;
+import jakarta.servlet.ServletOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -38,18 +39,20 @@ public class Library {
     IssueRepository issueRepository;
 
     public void temporaryTestMethod() {
+
         Author a = new Author("a", "email");
         Author a1 = new Author("a1", "mail1");
         Author a2 = new Author("a2", "mail2");
 
         Book b = new Book("123456", "title", "category1", 100, a);
-        Book b1 = new Book("64312", "title1", "category1", 10, a1);
+        Book b1 = new Book("64312", "title1", "category1", 1, a1);
         Book b2 = new Book("963258", "title2", "category2", 50, a2);
         Book b3 = new Book("741852", "title3", "category3", 75, a2);
         Book b4 = new Book("147256", "title4", "category4", 20, a2);
 
         authorRepository.saveAll(List.of(a, a1, a2));
         bookRepository.saveAll(List.of(b, b1, b2, b3, b4));
+
     }
 
     public void displayOptions() {
@@ -67,7 +70,6 @@ public class Library {
     public void menu() {
 
         short menu;
-
 
         while (true) {
             displayOptions();
@@ -100,6 +102,7 @@ public class Library {
                     issueBookToStudent();
                     break;
                 case 7:
+                    listBooksByUsn();
                     break;
                 case 8:
                     System.out.println("The program is over");
@@ -205,6 +208,7 @@ public class Library {
         }
 
         System.out.println("Enter Author name");
+        authorName = scanner.nextLine();
 
         while (true) {
 
@@ -443,15 +447,31 @@ public class Library {
 
         }
 
-        // todo: CONTROLAR QUE EL LIBRO ESTÉ SINO PETA EL PROGRAMA
-        book = bookRepository.findById(isbn).orElseThrow(() -> new IllegalArgumentException("The is any book with that ISBN"));
+        if (bookRepository.findById(isbn).isPresent()) {
 
-        issue = new Issue(LocalDate.now(), LocalDate.now().plusDays(7), student, book);
+            book = bookRepository.findById(isbn).get();
 
-        issueRepository.save(issue);
 
-        System.out.println("Book issued. Return date : " + LocalDate.now().plusDays(7));
+            if (book.getQuantity() <= 0) {
+                System.err.println("No hay libros disponibles.");
+            } else {
+                book.setQuantity(book.getQuantity() - 1);
 
+                bookRepository.save(book);
+
+                issue = new Issue(LocalDate.now(), LocalDate.now().plusDays(7), student, book);
+
+                issueRepository.save(issue);
+
+                System.out.println("Book issued. Return date : " + LocalDate.now().plusDays(7));
+            }
+
+
+        } else {
+
+            System.err.println("There is any book with that ISBN!");
+
+        }
 
     }
 
@@ -471,6 +491,43 @@ public class Library {
 
     public void listBooksByUsn() {
 
+        Scanner scanner = new Scanner(System.in);
+
+        Student student;
+
+        List<Issue> issueList;
+
+        Book book;
+
+        System.out.println("Enter the USN");
+        String usn = scanner.nextLine();
+
+        if (studentRepository.findById(usn).isPresent()) {
+
+            student = studentRepository.findById(usn).get();
+
+            issueList = student.getissueList();
+
+            if (issueList.isEmpty()) {
+                System.out.println("There isn't any USN saved yet!");
+                return;
+            }
+
+            // todo: EDU MIRAR ESTO PARA QUE IMPRIMA BIEN
+
+            System.out.println("Book Title" + "\t" + "Student Name" + "\t" + "\t" + "Return date");
+
+            for (Issue issue : issueList) {
+
+                book = bookRepository.findById(issue.getIssueBook().getIsbn()).get();
+
+                System.out.println(book.getTitle() + "\t" + "\t" + student.getName() + "\t" + "\t" + issue.getReturnDate());
+
+            }
+
+        } else {
+            System.err.println("The USN doesn't match.");
+        }
     }
 
 }

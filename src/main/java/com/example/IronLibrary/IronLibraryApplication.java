@@ -21,7 +21,6 @@ public class IronLibraryApplication implements CommandLineRunner {
 	@Autowired
 	StudentRepository studentRepository;
 
-
 	public static void main(String[] args) {
 		SpringApplication.run(IronLibraryApplication.class, args);
 	}
@@ -32,6 +31,7 @@ public class IronLibraryApplication implements CommandLineRunner {
 		Library library = new Library(authorRepository, bookRepository,studentRepository, issueRepository);
 		library.temporaryTestMethod();
 		library.menu();
+
 	}
 
 }
