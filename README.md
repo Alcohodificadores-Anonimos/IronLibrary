@@ -12,7 +12,7 @@ Ejemplo dirección de directorios: ../IronLibrary/.idea/src/main/java/ironlibrar
 
 **3.** A continuación, tendremos todo listo para correr nuestro programa, deberemos acceder al archivo cuyo nombre es "Main" y ejecturar dicho archivo desde la IDE para que corra el programa.
 
-*ATENCIÓN: Antes de ejecutar el código debemos acceder a la carpeta resour*
+*ATENCIÓN: Antes de ejecutar el código debemos acceder a la carpeta resources y en el properties debemos verificar que los datos Username y Root corresponden con los nuestros.*
 
 ## INSTRUCCIONES DEL PROGRAMA PARA SU USO
 ### Menú de inicio
