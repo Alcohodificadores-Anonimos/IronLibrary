@@ -45,4 +45,13 @@ public class Student {
         this.issueList = issueList;
     }
 
+    @Override
+    public String toString() {
+        return "Student{" +
+                "usn='" + usn + '\'' +
+                ", name='" + name + '\'' +
+                ", issueList=" + issueList +
+                '}';
+    }
+
 }

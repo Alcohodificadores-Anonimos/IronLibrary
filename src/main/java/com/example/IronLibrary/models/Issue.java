@@ -1,8 +1,6 @@
 package com.example.IronLibrary.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
 @Entity
@@ -15,7 +13,6 @@ public class Issue {
     private LocalDate returnDate;
     @ManyToOne
     @JoinColumn(name = "student_id")
-    // @JsonIgnore
     private Student issueStudent;
     @OneToOne
     @JoinColumn(name = "book_id")

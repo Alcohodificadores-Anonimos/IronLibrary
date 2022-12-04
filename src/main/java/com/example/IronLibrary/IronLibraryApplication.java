@@ -30,7 +30,7 @@ public class IronLibraryApplication implements CommandLineRunner {
 
 		Library library = new Library(authorRepository, bookRepository,studentRepository, issueRepository);
 		//Descomentar la línea 32 para añadir libros y autores de forma automática a la base de datos.
-		//library.temporaryTestMethod();
+		library.temporaryTestMethod();
 		library.menu();
 
 	}

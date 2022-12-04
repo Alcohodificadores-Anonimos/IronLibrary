@@ -8,7 +8,6 @@ import com.example.IronLibrary.repositories.AuthorRepository;
 import com.example.IronLibrary.repositories.BookRepository;
 import com.example.IronLibrary.repositories.IssueRepository;
 import com.example.IronLibrary.repositories.StudentRepository;
-import jakarta.servlet.ServletOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -20,6 +19,11 @@ public class Library {
 
     Scanner scanner = new Scanner(System.in);
     Formatter fmt = new Formatter();
+    Student student;
+    Book book;
+    List<Issue> issueList;
+    String isbn;
+    String authorName;
 
     public Library(AuthorRepository authorRepository, BookRepository bookRepository, StudentRepository studentRepository, IssueRepository issueRepository) {
         this.authorRepository = authorRepository;
@@ -37,7 +41,7 @@ public class Library {
     @Autowired
     IssueRepository issueRepository;
 
-    // Método para añadir algunos autores y libros automáticamente a la base de datos.
+    // Añadir algunos autores y libros automáticamente a la base de datos.
     public void temporaryTestMethod() {
 
         Author a = new Author("J.K. Rowling", "j.k.rowling@email.com");
@@ -56,7 +60,7 @@ public class Library {
 
     }
 
-    // Método para imprimir el menú
+    // Imprimir el menú
     public void displayOptions() {
 
         System.out.println("""
@@ -69,19 +73,19 @@ public class Library {
                 6. Issue book to student
                 7. List books by usn
                 8. Display books to be returned today
-                9. Exit                         
+                9. Exit                        
                 """);
 
     }
 
-    // Método para seleccionar las opciones del menú
+    // Seleccionar las opciones del menú
     public void menu() {
 
         short menu;
 
         while (true) {
 
-            // Imprimimos menú
+            // Llamamos imprimir menú
             displayOptions();
 
             // Validamos que los datos introducidos sean de tipo short
@@ -141,16 +145,13 @@ public class Library {
 
     }
 
-    // Método para añadir un libro
+    // Añadir un libro
     public void addBook() {
 
-        Scanner scanner = new Scanner(System.in);
         Author author;
-        String isbn;
         String title;
         String category;
         int quantity;
-        String authorName;
         String authorEmail;
 
         System.out.println("Enter isbn");
@@ -285,10 +286,9 @@ public class Library {
 
     }
 
-    // Método para buscar libro por su título
+    // Buscar libro por su título
     public void searchBookByTitle() {
 
-        Scanner scanner = new Scanner(System.in);
         String bookName;
 
         System.out.println("Enter a book name");
@@ -310,7 +310,6 @@ public class Library {
 
         }
 
-        //Hacemos el loop y no directamente el toString de la Lista para el formato del sout de cada libro
         printBook(bookRepository.findByTitle(bookName));
 
     }
@@ -318,7 +317,6 @@ public class Library {
     // Método para buscar libro por u categoría
     public void searchBookByCategory() {
 
-        Scanner scanner = new Scanner(System.in);
         String bookCategory;
 
         System.out.println("Enter a book category");
@@ -348,9 +346,6 @@ public class Library {
     // Método para buscar liobro por su autor
     public void searchBookByAuthor() {
 
-        Scanner scanner = new Scanner(System.in);
-        String authorName;
-
         System.out.println("Enter an Author Name");
 
         // Validamos que los datos introducidos no sean vacíos
@@ -374,7 +369,6 @@ public class Library {
 
         //Hacemos el loop y no directamente el toString de la Lista para el formato del sout de cada libro
         if (!authorList.isEmpty()) {
-            Formatter fmt = new Formatter();
             fmt.format("%15s %14s %14s %15s %15s %15s\n", "Book ISBN", "Book Title", "Category", "No of Books", "Author name", "Author mail");
             for (Author author : authorList) {
                 for (int j = 0; j < author.getAuthorBook().size(); j++) {
@@ -391,8 +385,8 @@ public class Library {
     public void listAllBooksWithAuthor() {
 
         List<Book> bookList = bookRepository.findAll();
-        Formatter fmt = new Formatter();
-        fmt.format("%15s %14s %14s %15s %15s %15s\n", "Book ISBN", "Book Title", "Category", "No of Books", "Author name", "Author mail");
+
+        fmt.format("%20s %30s %20s %5s %25s %25s\n", "Book ISBN", "Book Title", "Category", "No of Books", "Author name", "Author mail");
         if (!bookList.isEmpty()) {
             for (Book book : bookList) {
                 fmt = book.toStringListWithAuthor(fmt);
@@ -407,13 +401,9 @@ public class Library {
     // Método para buscar los libros prestados a los estudiantes
     public void issueBookToStudent() {
 
-        Scanner scanner = new Scanner(System.in);
-        Student student;
-        Book book;
         Issue issue;
         String studentUsn;
         String studentName;
-        String isbn;
 
         System.out.println("Enter The Student's USN");
 
@@ -512,15 +502,14 @@ public class Library {
 
     }
 
-    // Método para imprimir todos los libros
+    // Imprimir todos los libros
     public void printBook(List<Book> bookList) {
 
         if (!bookList.isEmpty()) {
 
-            Formatter fmt = new Formatter();
-
             fmt.format("%15s %14s %14s %15s\n", "Book ISBN", "Book Title", "Category", "No of Books");
 
+            //Hacemos el loop y no directamente el toString de la Lista para el formato del sout de cada libro
             for (Book book : bookList) {
 
                 fmt = book.toStringSimplified(fmt);
@@ -537,16 +526,8 @@ public class Library {
 
     }
 
-    // Método para listar todos los libros por USN
+    // Listar todos los libros por USN
     public void listBooksByUsn() {
-
-        Scanner scanner = new Scanner(System.in);
-
-        Student student;
-
-        List<Issue> issueList;
-
-        Book book;
 
         System.out.println("Enter the USN");
         String usn = scanner.nextLine();
@@ -564,10 +545,7 @@ public class Library {
                 return;
             }
 
-            // todo: EDU MIRAR ESTO PARA QUE IMPRIMA BIEN
             fmt.format("%15s %14s %14s\n","Book Title","Student Name","Return date");
-
-//            System.out.println("Book Title" + "\t" + "Student Name" + "\t" + "\t" + "Return date");
 
             // Por cada issue que haya por ese USN imprimimos el nombre del titulo, el nombre del estudiante y la fecha retorno
             for (Issue issue : issueList) {
@@ -589,7 +567,6 @@ public class Library {
     // Método BONUS para devolver lista de libros que se tienen que devolver hoy
     public void booksThatNeedToBeReturnedToday() {
 
-        List<Issue> issueList;
         List<Book> booksThatNeedToBeReturnedToday = new ArrayList<>();
 
         issueList = issueRepository.findAll();

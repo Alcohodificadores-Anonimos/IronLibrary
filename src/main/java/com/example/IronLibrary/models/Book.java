@@ -1,11 +1,6 @@
 package com.example.IronLibrary.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-//import org.springframework.format.Formatter;
-
-
-import java.util.ArrayList;
 import java.util.Formatter;
 /*
 This class will have:
@@ -30,10 +25,8 @@ public class Book {
     private Integer quantity;
     @ManyToOne
     @JoinColumn(name="author_id")
-    // @JsonIgnore
     private Author author;
     @OneToOne(mappedBy = "issueBook")
-    // @JsonIgnore
     private Issue issueBookId;
 
     public Book() {
