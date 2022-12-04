@@ -16,9 +16,9 @@ public class Student {
     public Student() {
     }
 
-    public Student(String usn, String data) {
+    public Student(String usn, String name) {
         this.usn = usn;
-        this.name = data;
+        this.name = name;
     }
 
     public String getUsn() {
