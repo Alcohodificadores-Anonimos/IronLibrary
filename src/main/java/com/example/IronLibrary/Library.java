@@ -39,18 +39,19 @@ public class Library {
     @Autowired
     IssueRepository issueRepository;
 
-    // Método para guardar autores y libros
+    // Método para añadir algunos autores y libros automáticamente a la base de datos.
     public void temporaryTestMethod() {
 
-        Author a = new Author("a", "email");
-        Author a1 = new Author("a1", "mail1");
-        Author a2 = new Author("a2", "mail2");
+        Author a = new Author("J.K. Rowling", "j.k.rowling@email.com");
+        Author a1 = new Author("J.R.R. Tolkien", "tolkien@gmail.com");
+        Author a2 = new Author("Miguel de Cervantes", "- sin email -");
 
-        Book b = new Book("123456", "title", "category1", 100, a);
-        Book b1 = new Book("64312", "title1", "category1", 1, a1);
-        Book b2 = new Book("963258", "title2", "category2", 50, a2);
-        Book b3 = new Book("741852", "title3", "category3", 75, a2);
-        Book b4 = new Book("147256", "title4", "category4", 20, a2);
+        Book b = new Book("123456", "Harry Potter y la piedra filosofal", "Fantasía", 6, a);
+        Book b1 = new Book("64312", "Harry Potter y la cámara de los secretos", "Fantasía", 4, a);
+        Book b2 = new Book("963258", "Silmarillion", "Fantasía Épica", 3, a1);
+        Book b3 = new Book("741852", "La Galatea", "Novela pastoril", 15, a2);
+        Book b4 = new Book("147256", "Don Quijote de la Mancha", "Sátira", 4, a2);
+
 
         authorRepository.saveAll(List.of(a, a1, a2));
         bookRepository.saveAll(List.of(b, b1, b2, b3, b4));
