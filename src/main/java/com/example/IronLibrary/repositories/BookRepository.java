@@ -12,4 +12,10 @@ public interface BookRepository extends JpaRepository<Book, String> {
     List<Book> findByTitle(String title);
     List<Book> findByCategory(String category);
 
+<<<<<<< HEAD
+=======
+    List<Book> findByAuthor (String author);
+
+
+>>>>>>> cristian
 }
