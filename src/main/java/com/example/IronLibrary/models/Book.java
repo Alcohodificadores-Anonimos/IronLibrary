@@ -2,6 +2,7 @@ package com.example.IronLibrary.models;
 
 import jakarta.persistence.*;
 import java.util.Formatter;
+import java.util.List;
 /*
 This class will have:
 
@@ -100,20 +101,12 @@ public class Book {
                 '}';
     }
 
-    public String toStringSimplifiedd() {
-        return isbn + "\t"+"\t" + title + "\t"+"\t" +category + "\t"+"\t" + quantity;
+    public List<String> toStringListSimplified() {
+        return List.of(isbn,title,category,quantity.toString());
     }
 
-    public String toStringWithAuthor() {
-        return isbn + "\t"+"\t" + title + "\t"+"\t" +category + "\t"+"\t" + quantity + "\t"+"\t" + author.getName()+ "\t"+"\t"+"\t" + author.getEmail();
-    }
-
-    public Formatter toStringSimplified(Formatter fmt) {
-        return fmt.format("%15s %14s %14s %15s\n", isbn,title,category,quantity);
-    }
-
-    public Formatter toStringListWithAuthor(Formatter fmt) {
-        return fmt.format("%15s %14s %14s %15s %15s %15s\n", isbn,title,category,quantity,author.getName(),author.getEmail());
+    public List<String> toStringListWithAuthor() {
+        return List.of(isbn,title,category,quantity.toString(),author.getName(),author.getEmail());
     }
 
 }

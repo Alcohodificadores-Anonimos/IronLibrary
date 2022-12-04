@@ -10,8 +10,6 @@ import com.example.IronLibrary.repositories.IssueRepository;
 import com.example.IronLibrary.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
-import java.text.Format;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -24,6 +22,9 @@ public class Library {
     List<Issue> issueList;
     String isbn;
     String authorName;
+    List<List<String>> rows = new ArrayList<>();
+    final List<String> headersBookAuthor = Arrays.asList("Book ISBN", "Book Title", "Category", "No of Books", "Author name", "Author mail");
+    final List<String> headersBook = Arrays.asList("Book ISBN", "Book Title", "Category", "No of Books");
 
     public Library(AuthorRepository authorRepository, BookRepository bookRepository, StudentRepository studentRepository, IssueRepository issueRepository) {
         this.authorRepository = authorRepository;
@@ -54,9 +55,14 @@ public class Library {
         Book b3 = new Book("741852", "La Galatea", "Novela pastoril", 15, a2);
         Book b4 = new Book("147256", "Don Quijote de la Mancha", "Sátira", 4, a2);
 
+        Student s = new Student("1","Estudiante");
+        Issue i = new Issue(LocalDate.of(2022,12,12),
+                LocalDate.of(2022,12,30),s,b4);
 
         authorRepository.saveAll(List.of(a, a1, a2));
         bookRepository.saveAll(List.of(b, b1, b2, b3, b4));
+        studentRepository.save(s);
+        issueRepository.save(i);
 
     }
 
@@ -73,7 +79,7 @@ public class Library {
                 6. Issue book to student
                 7. List books by usn
                 8. Display books to be returned today
-                9. Exit                        
+                9. Exit
                 """);
 
     }
@@ -90,55 +96,34 @@ public class Library {
 
             // Validamos que los datos introducidos sean de tipo short
             while (true) {
+                scanner = new Scanner(System.in);
+                System.out.print("Enter your choice (1 to 8): ");
 
                 if (!scanner.hasNextShort()) {
 
-                    System.err.println("Select an option (1 to 8): ");
                     scanner.next();
 
                 } else {
-
                     menu = scanner.nextShort();
                     break;
-
                 }
 
             }
 
             switch (menu) {
-
-                case 1:
-                    addBook();
-                    break;
-                case 2:
-                    searchBookByTitle();
-                    break;
-                case 3:
-                    searchBookByCategory();
-                    break;
-                case 4:
-                    searchBookByAuthor();
-                    break;
-                case 5:
-                    listAllBooksWithAuthor();
-                    break;
-                case 6:
-                    issueBookToStudent();
-                    break;
-                case 7:
-                    listBooksByUsn();
-                    break;
-                case 8:
-                    booksThatNeedToBeReturnedToday();
-                    break;
-                case 9:
+                case 1 -> addBook();
+                case 2 -> searchBookByTitle();
+                case 3 -> searchBookByCategory();
+                case 4 -> searchBookByAuthor();
+                case 5 -> listAllBooksWithAuthor();
+                case 6 -> issueBookToStudent();
+                case 7 -> listBooksByUsn();
+                case 8 -> booksThatNeedToBeReturnedToday();
+                case 9 -> {
                     System.out.println("The program is over");
                     System.exit(0);
-                    break;
-                default:
-                    System.out.println("Enter a valid option");
-                    break;
-
+                }
+                default -> System.out.println("Enter a valid option");
             }
 
         }
@@ -154,7 +139,8 @@ public class Library {
         int quantity;
         String authorEmail;
 
-        System.out.println("Enter isbn");
+        scanner.next();
+        System.out.print("Enter isbn: ");
 
         // Validamos que los datos introducidos no sean vacíos
         while (true) {
@@ -173,7 +159,7 @@ public class Library {
 
         }
 
-        System.out.println("Enter title");
+        System.out.print("Enter title: ");
 
         // Validamos que los datos introducidos no sean vacíos
         while (true) {
@@ -192,7 +178,7 @@ public class Library {
 
         }
 
-        System.out.println("Enter category");
+        System.out.print("Enter category: ");
 
         // Validamos que los datos introducidos no sean vacíos
         while (true) {
@@ -211,7 +197,7 @@ public class Library {
 
         }
 
-        System.out.println("Enter number of books");
+        System.out.print("Enter number of books: ");
 
         // Validamos que los datos introducidos no sean vacíos
         while (true) {
@@ -239,7 +225,7 @@ public class Library {
 
         }
 
-        System.out.println("Enter Author name");
+        System.out.print("Enter Author name: ");
         authorName = scanner.nextLine();
 
         // Validamos que los datos introducidos no sean vacíos
@@ -259,7 +245,7 @@ public class Library {
 
         }
 
-        System.out.println("Enter Author email");
+        System.out.print("Enter Author email: ");
 
         // Validamos que los datos introducidos no sean vacíos
         while (true) {
@@ -282,7 +268,7 @@ public class Library {
         author = authorRepository.save(new Author(authorName, authorEmail));
         bookRepository.save(new Book(isbn, title, category, quantity, author));
 
-        System.out.println("Author saved into DB!\nBook saved into DB!");
+        System.out.println("\nAuthor saved into DB!\nBook saved into DB!");
 
     }
 
@@ -291,7 +277,8 @@ public class Library {
 
         String bookName;
 
-        System.out.println("Enter a book name");
+        scanner.nextLine();
+        System.out.print("Enter title: ");
 
         // Validamos que los datos introducidos no sean vacíos
         while (true) {
@@ -300,7 +287,7 @@ public class Library {
 
             if (bookName.isEmpty()) {
 
-                System.out.println("Insert a valid book name!");
+                System.out.println("Insert a valid book title!");
 
             } else {
 
@@ -319,7 +306,8 @@ public class Library {
 
         String bookCategory;
 
-        System.out.println("Enter a book category");
+        scanner.nextLine();
+        System.out.print("Enter category: ");
 
         // Validamos que los datos introducidos no sean vacíos
         while (true) {
@@ -338,7 +326,7 @@ public class Library {
 
         }
 
-        //Hacemos el loop y no directamente el toString de la Lista para el formato del sout de cada libro
+        // Hacemos el loop y no directamente el toString de la Lista para el formato del sout de cada libro
         printBook(bookRepository.findByCategory(bookCategory));
 
     }
@@ -346,7 +334,8 @@ public class Library {
     // Método para buscar liobro por su autor
     public void searchBookByAuthor() {
 
-        System.out.println("Enter an Author Name");
+        scanner.nextLine();
+        System.out.print("Enter name: ");
 
         // Validamos que los datos introducidos no sean vacíos
         while (true) {
@@ -367,15 +356,18 @@ public class Library {
 
         List<Author> authorList = authorRepository.findByName(authorName);
 
-        //Hacemos el loop y no directamente el toString de la Lista para el formato del sout de cada libro
+        // Hacemos el loop y no directamente el toString de la Lista para el formato del sout de cada libro
         if (!authorList.isEmpty()) {
-            fmt.format("%15s %14s %14s %15s %15s %15s\n", "Book ISBN", "Book Title", "Category", "No of Books", "Author name", "Author mail");
+            rows = new ArrayList<>();
+            rows.add(headersBookAuthor);
+
             for (Author author : authorList) {
                 for (int j = 0; j < author.getAuthorBook().size(); j++) {
-                    fmt = author.getAuthorBook().get(j).toStringListWithAuthor(fmt);
+                    rows.add(author.getAuthorBook().get(j).toStringListWithAuthor());
                 }
             }
-            System.out.println(fmt);
+
+            System.out.println("\n"+formatAsTable(rows));
         } else {
             System.out.println("This author has no books");
         }
@@ -385,13 +377,15 @@ public class Library {
     public void listAllBooksWithAuthor() {
 
         List<Book> bookList = bookRepository.findAll();
+        rows = new ArrayList<>();
+        rows.add(headersBookAuthor);
 
-        fmt.format("%20s %30s %20s %5s %25s %25s\n", "Book ISBN", "Book Title", "Category", "No of Books", "Author name", "Author mail");
         if (!bookList.isEmpty()) {
             for (Book book : bookList) {
-                fmt = book.toStringListWithAuthor(fmt);
+                rows.add(book.toStringListWithAuthor());
             }
-            System.out.println(fmt);
+
+            System.out.println("\n"+formatAsTable(rows));
         } else {
             System.out.println("There is any book");
         }
@@ -405,7 +399,8 @@ public class Library {
         String studentUsn;
         String studentName;
 
-        System.out.println("Enter The Student's USN");
+        scanner.nextLine();
+        System.out.print("Enter USN: ");
 
         // Validamos que los datos introducidos no sean vacíos
         while (true) {
@@ -424,7 +419,7 @@ public class Library {
 
         }
 
-        System.out.println("Enter The Student's Name");
+        System.out.print("Enter name: ");
 
         // Validamos que los datos introducidos no sean vacíos
         while (true) {
@@ -452,7 +447,7 @@ public class Library {
             studentRepository.save(student);
         }
 
-        System.out.println("Enter book ISBN");
+        System.out.print("Enter book ISBN: ");
 
         // Validamos que los datos introducidos no sean vacíos
         while (true) {
@@ -489,7 +484,7 @@ public class Library {
                 issue = new Issue(LocalDate.now(), LocalDate.now().plusDays(7), student, book);
                 issueRepository.save(issue);
 
-                System.out.println("Book issued. Return date : " + LocalDate.now().plusDays(7));
+                System.out.println("\nBook issued. Return date : " + LocalDate.now().plusDays(7));
 
             }
 
@@ -506,21 +501,20 @@ public class Library {
     public void printBook(List<Book> bookList) {
 
         if (!bookList.isEmpty()) {
-
-            fmt.format("%15s %14s %14s %15s\n", "Book ISBN", "Book Title", "Category", "No of Books");
+            rows = new ArrayList<>();
+            rows.add(headersBook);
 
             //Hacemos el loop y no directamente el toString de la Lista para el formato del sout de cada libro
             for (Book book : bookList) {
 
-                fmt = book.toStringSimplified(fmt);
-
+                rows.add(book.toStringListSimplified());
             }
 
-            System.out.println(fmt);
+            System.out.println("\n"+formatAsTable(rows));
 
         } else {
 
-            System.out.println("Books not found");
+            System.out.println("\nBooks not found");
 
         }
 
@@ -529,7 +523,8 @@ public class Library {
     // Listar todos los libros por USN
     public void listBooksByUsn() {
 
-        System.out.println("Enter the USN");
+        scanner.nextLine();
+        System.out.print("Enter the USN: ");
         String usn = scanner.nextLine();
 
         // Comprobamos que exista el USN
@@ -545,16 +540,18 @@ public class Library {
                 return;
             }
 
-            fmt.format("%15s %14s %14s\n","Book Title","Student Name","Return date");
+            rows = new ArrayList<>();
+            rows.add(Arrays.asList("Book Title","Student Name","Return date"));
+//          fmt.format("%15s %14s %14s\n","Book Title","Student Name","Return date");
 
             // Por cada issue que haya por ese USN imprimimos el nombre del titulo, el nombre del estudiante y la fecha retorno
             for (Issue issue : issueList) {
 
                 book = bookRepository.findById(issue.getIssueBook().getIsbn()).get();
-                fmt.format("%14s %14s %14s\n", book.getTitle(),student.getName(),issue.getReturnDate());
-
+//              fmt.format("%14s %14s %14s\n", book.getTitle(),student.getName(),issue.getReturnDate());
+                rows.add(Arrays.asList(book.getTitle(),student.getName(),issue.getReturnDate().toString()));
             }
-            System.out.println(fmt);
+            System.out.println("\n"+formatAsTable(rows));
 
         } else {
 
@@ -595,6 +592,31 @@ public class Library {
 
         }
 
+    }
+
+    public static String formatAsTable(List<List<String>> rows) {
+        int[] maxLengths = new int[rows.get(0).size()];
+        for (List<String> row : rows)
+        {
+            for (int i = 0; i < row.size(); i++)
+            {
+                maxLengths[i] = Math.max(maxLengths[i], row.get(i).length());
+            }
+        }
+
+        StringBuilder formatBuilder = new StringBuilder();
+        for (int maxLength : maxLengths)
+        {
+            formatBuilder.append("%-").append(maxLength + 2).append("s");
+        }
+        String format = formatBuilder.toString();
+
+        StringBuilder result = new StringBuilder();
+        for (List<String> row : rows)
+        {
+            result.append(String.format(format, row.toArray(new String[0]))).append("\n");
+        }
+        return result.toString();
     }
 
 }
