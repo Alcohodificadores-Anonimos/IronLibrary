@@ -32,7 +32,7 @@ Ejemplo dirección de directorios: ../IronLibrary/.idea/src/main/java/ironlibrar
 
 ### 2.-Search book by title
 
-[![Image from Gyazo](https://i.gyazo.com/9f0ad6d63f0a70d7c20c89df6d5935a6.png)](https://gyazo.com/9f0ad6d63f0a70d7c20c89df6d5935a6)
+[![Image from Gyazo](https://i.gyazo.com/46638082a8e254b507e74b17b5fad3ef.png)](https://gyazo.com/46638082a8e254b507e74b17b5fad3ef)
 
     Search book by title nos mostrará información relevante acerca del libro que hayamos introducido.
 
@@ -42,7 +42,7 @@ Ejemplo dirección de directorios: ../IronLibrary/.idea/src/main/java/ironlibrar
     
 ### 3.- Search book by category
 
-[![Image from Gyazo](https://i.gyazo.com/2dbf72e6b520c0400111300fc2b510fa.png)](https://gyazo.com/2dbf72e6b520c0400111300fc2b510fa)
+[![Image from Gyazo](https://i.gyazo.com/2de8c4eea277584c74a845f27762253c.png)](https://gyazo.com/2de8c4eea277584c74a845f27762253c)
 
     Si buscamos una categoría se mostrará un listado de libros que corresponden a dicha categoría.
     
@@ -52,7 +52,7 @@ Ejemplo dirección de directorios: ../IronLibrary/.idea/src/main/java/ironlibrar
     
  ### 4.- Seach book by author
  
- [![Image from Gyazo](https://i.gyazo.com/a49b5ae8ea68d8114ff55920bdd79dbd.png)](https://gyazo.com/a49b5ae8ea68d8114ff55920bdd79dbd)
+[![Image from Gyazo](https://i.gyazo.com/daf35909aca7da07101d95f93d280bb2.png)](https://gyazo.com/daf35909aca7da07101d95f93d280bb2)
  
     Si buscamos un libro por autor se mostrará un listado de libros que corresponden a dicho autor.
     
@@ -62,7 +62,7 @@ Ejemplo dirección de directorios: ../IronLibrary/.idea/src/main/java/ironlibrar
   
 ### 5.- List all books along with author
 
-[![Image from Gyazo](https://i.gyazo.com/11bb749f79c362ab24b326aba299fd65.png)](https://gyazo.com/11bb749f79c362ab24b326aba299fd65)
+[![Image from Gyazo](https://i.gyazo.com/44cd44d11a0f9cd5e69fd8ab0af35d0d.png)](https://gyazo.com/44cd44d11a0f9cd5e69fd8ab0af35d0d)
 
     Este comando nos mostrará un listado de cada libro en el sistema con informacón relevante incluido su autor
     
@@ -82,7 +82,7 @@ Ejemplo dirección de directorios: ../IronLibrary/.idea/src/main/java/ironlibrar
     Este es el mensaje que aparecerá en el caso de que queramos prestar un libro que no se encuentre en nuestra base de datos.
 
 ### 7.- List books by usn
-[![Image from Gyazo](https://i.gyazo.com/e1aaee4bb1cb2af0b9c6ad3a78af4548.png)](https://gyazo.com/e1aaee4bb1cb2af0b9c6ad3a78af4548)
+[![Image from Gyazo](https://i.gyazo.com/20aaccec04a491847c819213a2a31661.png)](https://gyazo.com/20aaccec04a491847c819213a2a31661)
 
     Si el USN del estudiante se encuentra en la base de datos de préstamos se mostrarán por pantalla los datos referentes al libro prestado y al estudiando que tiene el préstamo
 
