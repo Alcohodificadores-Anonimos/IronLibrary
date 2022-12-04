@@ -80,10 +80,31 @@ class IronLibraryApplicationTests {
 	}
 	@Test
 	void findByAuthor(){
-			/*assertEquals("Novelas Ejemplares",authorRepository.findByName("Cervantes").get(1).getAuthorBook());
-			assertEquals("novela",bookRepository.findByAuthor("Cervantes").get(0).getCategory());
-			assertEquals("ISBN2", bookRepository.findByAuthor("Cervantes").get(0).getIsbn());
-			assertEquals(500, bookRepository.findByAuthor("Cervantes").get(0).getQuantity());*/
+			assertEquals("Novelas Ejemplares",authorRepository.findByName("Cervantes").get(0).getAuthorBook().get(1).getTitle());
+			assertEquals("novela",authorRepository.findByName("Cervantes").get(0).getAuthorBook().get(1).getCategory());
+			assertEquals("Don Quijote",authorRepository.findByName("Cervantes").get(0).getAuthorBook().get(0).getTitle());
+			assertEquals("ISBN1",authorRepository.findByName("Cervantes").get(0).getAuthorBook().get(0).getIsbn());
+
 	}
 
+	@Test
+	void listAllBooksWithAuthor(){
+		assertEquals("novela", bookRepository.findAll().get(0).getCategory());
+		assertEquals("ISBN2", bookRepository.findAll().get(1).getIsbn());
+		assertEquals("Cervantes", bookRepository.findAll().get(1).getAuthor().getName());
+		assertEquals(2, bookRepository.findAll().get(0).getIssueBookId().getIssueId());
+	}
+	@Test
+	void issueBookToStudent(){
+		assertEquals(1, issueRepository.findById(1).get().getIssueId());
+		assertEquals("Manu", issueRepository.findById(1).get().getIssueStudent().getName());
+		assertEquals("ISBN1", issueRepository.findById(1).get().getIssueBook().getIsbn());
+		assertEquals(LocalDate.of(2022,12,5), issueRepository.findById(1).get().getReturnDate());
+		assertEquals(LocalDate.of(2022,11,30), issueRepository.findById(1).get().getIssueDate());
+	}
+
+	@Test
+	void listBooksByUsn(){
+		assertEquals("Don Quijote",studentRepository.findById("USN1").get().getissueList().get(0).getIssueBook().getTitle());
+	}
 }
